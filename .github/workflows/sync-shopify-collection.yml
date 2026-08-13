@@ -1,0 +1,28 @@
+name: Sync Shopify products to Customer.io
+
+on:
+  schedule:
+    # Runs at the top of every hour. Shopify catalogs rarely need syncing
+    # more often than that — adjust the cron expression to taste
+    # (e.g. "0 */4 * * *" for every 4 hours, "0 6 * * *" for once daily at 6am UTC).
+    - cron: "0 * * * *"
+  workflow_dispatch: {} # lets you trigger a run manually from the Actions tab
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Push Shopify catalog into Customer.io collection
+        run: node sync-shopify-to-cio.js
+        env:
+          SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
+          SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
+          CIO_APP_API_KEY: ${{ secrets.CIO_APP_API_KEY }}
+          CIO_COLLECTION_ID: ${{ secrets.CIO_COLLECTION_ID }}
+          CIO_REGION: us # change to "eu" if your Customer.io workspace is in the EU region
