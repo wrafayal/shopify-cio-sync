@@ -16,13 +16,14 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
 
-      - name: Push Shopify catalog into Customer.io collection
+      - name: Push Shopify catalog into Customer.io collection(s)
         run: node sync-shopify-to-cio.js
         env:
           SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
           SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
           CIO_APP_API_KEY: ${{ secrets.CIO_APP_API_KEY }}
           CIO_COLLECTION_ID: ${{ secrets.CIO_COLLECTION_ID }}
+          CIO_COLLECTIONS_ID: ${{ secrets.CIO_COLLECTIONS_ID }} # optional — leave the secret unset to skip this part
           CIO_REGION: us # change to "eu" if your Customer.io workspace is in the EU region
