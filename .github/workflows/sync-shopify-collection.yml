@@ -5,7 +5,7 @@ on:
     # Runs at the top of every hour. Shopify catalogs rarely need syncing
     # more often than that — adjust the cron expression to taste
     # (e.g. "0 */4 * * *" for every 4 hours, "0 6 * * *" for once daily at 6am UTC).
-    - cron: "*/5 * * * *"
+    - cron:  "0 */4 * * *"
   workflow_dispatch: {} # lets you trigger a run manually from the Actions tab
 
 jobs:
